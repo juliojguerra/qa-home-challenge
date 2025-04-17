@@ -7,35 +7,33 @@ test.describe("Hotel Search & Filtering", () => {
     page,
   }) => {
     const homePage = new HomePage(page);
-    const searchResultsPage = new SearchResultsPage(page);
+    const searchBox = homePage.getSearchBox();
     const searchLocation = "New York, United States";
 
     await homePage.goto();
 
-    await homePage.fillSearchDestination(searchLocation);
-
-    await homePage.selectStartDate();
-
-    await homePage.selectEndDate();
-
-    await homePage.clickSearchButton();
+    await searchBox.fillSearchDestination(searchLocation);
+    await searchBox.selectStartDate();
+    await searchBox.selectEndDate();
+    const searchResultsPage = await searchBox.clickSearchButton();
 
     await searchResultsPage.verifySearchResultsByLocation(searchLocation);
   });
 
-  // Selecting check-in and check-out dates should update availability.
   test("TC-D-001 - Verify selecting check-in and check-out dates updates availability", async ({
     page,
   }) => {
     const homePage = new HomePage(page);
-    const searchResultsPage = new SearchResultsPage(page);
+    const searchBox = homePage.getSearchBox();
     const destination = "Valencia";
 
     await homePage.goto();
-    await homePage.fillSearchDestination(destination);
-    await homePage.selectStartDate(1);
-    await homePage.selectEndDate(10);
-    await homePage.clickSearchButton();
+
+    await searchBox.fillSearchDestination(destination);
+    await searchBox.selectStartDate(1);
+    await searchBox.selectEndDate(10);
+
+    let searchResultsPage = await searchBox.clickSearchButton();
 
     await searchResultsPage.verifySearchResultsByLocation(destination);
     await searchResultsPage.verifyResultsCountIsGreaterThan0();
@@ -48,15 +46,10 @@ test.describe("Hotel Search & Filtering", () => {
       0
     );
 
-    // select new dates, with less range
-    await homePage.clickDatesContainer();
-    await homePage.selectStartDate(1);
-
-    await homePage.selectEndDate(5);
-
-    await homePage.clickSearchButton();
-
-    await homePage.pause();
+    await searchBox.clickDatesContainer();
+    await searchBox.selectStartDate(1);
+    await searchBox.selectEndDate(5);
+    searchResultsPage = await searchBox.clickSearchButton();
 
     const newPropertiesCount = await searchResultsPage.getPropertiesFoundCount(
       test
@@ -67,6 +60,46 @@ test.describe("Hotel Search & Filtering", () => {
       "New properties count should be higher or equal to previous selection, since date range is shorter"
     ).toBeTruthy();
   });
+
   // Applying a "Guest Rating: 8+" filter should update results correctly.
+  test.only("TC-F-001 - Verify applying Guest Rating: 8+ filter updates results correctly", async ({
+    page,
+  }) => {
+    const homePage = new HomePage(page);
+    const searchBox = homePage.getSearchBox();
+    const filterArea = homePage.getFilterArea();
+    const destination = "Valencia";
+
+    await homePage.goto();
+
+    await searchBox.fillSearchDestination(destination);
+    await searchBox.selectStartDate(1);
+    await searchBox.selectEndDate(10);
+
+    let searchResultsPage = await searchBox.clickSearchButton();
+
+    const propertiesCount = await searchResultsPage.getPropertiesFoundCount(
+      test
+    );
+
+    await filterArea.filterByVeryGood8Plus();
+
+    const isVeryGood8PlusFilterChecked =
+      await filterArea.isVeryGood8PlusFilterChecked();
+
+    expect(
+      isVeryGood8PlusFilterChecked,
+      "8+ star rating should be checked"
+    ).toBeTruthy();
+
+    const newPropertiesCount = await searchResultsPage.getPropertiesFoundCount(
+      test
+    );
+
+    expect(
+      propertiesCount >= newPropertiesCount,
+      "Selecting 8+ star rating did not update the results."
+    ).toBeTruthy();
+  });
   // Sorting by "Lowest Price" should reorder results as expected.
 });
