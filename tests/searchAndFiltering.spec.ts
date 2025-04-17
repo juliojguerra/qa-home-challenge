@@ -61,8 +61,7 @@ test.describe("Hotel Search & Filtering", () => {
     ).toBeTruthy();
   });
 
-  // Applying a "Guest Rating: 8+" filter should update results correctly.
-  test.only("TC-F-001 - Verify applying Guest Rating: 8+ filter updates results correctly", async ({
+  test("TC-F-001 - Verify applying Guest Rating: 8+ filter updates results correctly", async ({
     page,
   }) => {
     const homePage = new HomePage(page);
@@ -101,5 +100,24 @@ test.describe("Hotel Search & Filtering", () => {
       "Selecting 8+ star rating did not update the results."
     ).toBeTruthy();
   });
-  // Sorting by "Lowest Price" should reorder results as expected.
+
+  test("TC-SO-001 - Verify sorting by 'Lowest Price' reorders results as expected", async ({
+    page,
+  }) => {
+    const homePage = new HomePage(page);
+    const searchBox = homePage.getSearchBox();
+    const destination = "Valencia";
+
+    await homePage.goto();
+
+    await searchBox.fillSearchDestination(destination);
+    await searchBox.selectStartDate(1);
+    await searchBox.selectEndDate(5);
+
+    let searchResultsPage = await searchBox.clickSearchButton();
+
+    await searchResultsPage.selectLowestPriceFirstOption();
+
+    await searchResultsPage.verifySortingByLowestPriceReordersResults();
+  });
 });
