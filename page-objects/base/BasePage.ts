@@ -58,6 +58,24 @@ export class BasePage {
     await locator.fill(text);
   }
 
+  async handleGeniusModal() {
+    try {
+      // Check for the specific Genius modal with the "Sign in, save money" text
+      const geniusModal = this.page
+        .locator('div[role="dialog"]')
+        .filter({ hasText: "Sign in, save money" });
+
+      if (await this.isVisible(geniusModal, 2000)) {
+        // Look for close buttons within the modal
+        const closeButton = geniusModal.locator("button").first();
+        await closeButton.click();
+      }
+    } catch (error) {
+      // Continue if we can't handle this specific popup
+      console.log("Genius modal either not present or could not be closed");
+    }
+  }
+
   /**
    * Click a button or link and wait for a specific load state
    */
