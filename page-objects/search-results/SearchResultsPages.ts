@@ -9,7 +9,6 @@ export class SearchResultsPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.searchResultHeading = page.getByRole("heading", { name: /New York/ });
     this.hotelResults = page.locator('[data-testid="property-card"]');
     this.hotelLocations = page.locator(
       '[data-testid="property-card"] [data-testid="location"]'
@@ -30,6 +29,7 @@ export class SearchResultsPage extends BasePage {
         "ZeroStep requires a valid test object. Please pass the test object from your test function."
       );
     }
+
     // Use 0step ai to extract the property count
     const countText = await ai("Extract the number of properties found", {
       page: this.page,
