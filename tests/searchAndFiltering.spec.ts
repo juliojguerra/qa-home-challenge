@@ -1,16 +1,19 @@
 import { test, expect } from "@playwright/test";
 import { HomePage } from "../page-objects/homepage/HomePage";
-import { SearchResultsPage } from "../page-objects/search-results/SearchResultsPages";
+import { SearchBoxPage } from "../page-objects/common/SearchBoxPage";
 
-test.describe("Hotel Search & Filtering", () => {
-  test('TC-S-001 - Verify searching for hotels in "New York" displays relevant results', async ({
-    page,
-  }) => {
-    const homePage = new HomePage(page);
-    const searchBox = homePage.getSearchBox();
-    const searchLocation = "New York, United States";
+test.describe("User Story 1: Hotel Search & Filtering", () => {
+  let homePage: HomePage;
+  let searchBox: SearchBoxPage;
 
+  test.beforeEach(async ({ page }) => {
+    homePage = new HomePage(page);
+    searchBox = homePage.getSearchBox();
     await homePage.goto();
+  });
+
+  test('TC-S-001 - Verify searching for hotels in "New York" displays relevant results', async ({}) => {
+    const searchLocation = "New York, United States";
 
     await searchBox.fillSearchDestination(searchLocation);
     await searchBox.selectStartDate();
@@ -20,14 +23,8 @@ test.describe("Hotel Search & Filtering", () => {
     await searchResultsPage.verifySearchResultsByLocation(searchLocation);
   });
 
-  test("TC-D-001 - Verify selecting check-in and check-out dates updates availability", async ({
-    page,
-  }) => {
-    const homePage = new HomePage(page);
-    const searchBox = homePage.getSearchBox();
+  test("TC-D-001 - Verify selecting check-in and check-out dates updates availability", async ({}) => {
     const destination = "Valencia";
-
-    await homePage.goto();
 
     await searchBox.fillSearchDestination(destination);
     await searchBox.selectStartDate(1);
@@ -61,15 +58,9 @@ test.describe("Hotel Search & Filtering", () => {
     ).toBeTruthy();
   });
 
-  test("TC-F-001 - Verify applying Guest Rating: 8+ filter updates results correctly", async ({
-    page,
-  }) => {
-    const homePage = new HomePage(page);
-    const searchBox = homePage.getSearchBox();
+  test("TC-F-001 - Verify applying Guest Rating: 8+ filter updates results correctly", async ({}) => {
     const filterArea = homePage.getFilterArea();
     const destination = "Valencia";
-
-    await homePage.goto();
 
     await searchBox.fillSearchDestination(destination);
     await searchBox.selectStartDate(1);
@@ -101,14 +92,8 @@ test.describe("Hotel Search & Filtering", () => {
     ).toBeTruthy();
   });
 
-  test("TC-SO-001 - Verify sorting by 'Lowest Price' reorders results as expected", async ({
-    page,
-  }) => {
-    const homePage = new HomePage(page);
-    const searchBox = homePage.getSearchBox();
+  test("TC-SO-001 - Verify sorting by 'Lowest Price' reorders results as expected", async ({}) => {
     const destination = "Valencia";
-
-    await homePage.goto();
 
     await searchBox.fillSearchDestination(destination);
     await searchBox.selectStartDate(1);
