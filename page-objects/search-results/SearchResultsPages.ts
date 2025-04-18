@@ -3,12 +3,12 @@ import { ai } from "@zerostep/playwright";
 import { BasePage } from "../base/BasePage";
 
 export class SearchResultsPage extends BasePage {
-  readonly searchResultHeading: Locator;
-  readonly hotelResults: Locator;
-  readonly hotelLocations: Locator;
-  readonly allPropertiesPrices: Locator;
-  readonly sortersDropdown: Locator;
-  readonly priceLowersFirstOption: Locator;
+  private readonly searchResultHeading: Locator;
+  private readonly hotelResults: Locator;
+  private readonly hotelLocations: Locator;
+  private readonly allPropertiesPrices: Locator;
+  private readonly sortersDropdown: Locator;
+  private readonly priceLowersFirstOption: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -129,25 +129,37 @@ export class SearchResultsPage extends BasePage {
 
   // Helper method to extract numeric value from price string
   private extractNumericPrice(priceText: string): number {
-    // First split by spaces and look for numeric parts
-    const parts = priceText.trim().split(/\s+/);
+    // Remove currency symbols and spaces
+    const cleanText = priceText.trim();
 
-    for (const part of parts) {
-      // Try to parse each part - if it's a number, return it
-      const parsed = parseFloat(part);
-      if (!isNaN(parsed)) {
-        return parsed;
-      }
+    // Try to extract numbers with commas and decimal points
+    const matches = cleanText.match(/[\d,.]+/g);
+
+    if (!matches || matches.length === 0) {
+      console.warn(`Could not extract numeric price from: ${priceText}`);
+      return 0;
     }
 
-    // If no number found in spaces, fall back to regex
-    const matches = priceText.match(/\d+(\.\d+)?/);
-    if (matches && matches[0]) {
-      return parseFloat(matches[0]);
+    // Get the first match that's likely to be the price
+    let numericString = matches[0];
+
+    // Handle thousand separators (commas)
+    // If the string has commas, remove them assuming they're thousand separators
+    if (numericString.includes(",") && !numericString.includes(".")) {
+      numericString = numericString.replace(/,/g, "");
+    }
+    // If the string has both commas and periods, assume comma is thousand separator
+    else if (numericString.includes(",") && numericString.includes(".")) {
+      numericString = numericString.replace(/,/g, "");
     }
 
-    // If we still can't find a number, log a warning and return 0
-    console.warn(`Could not extract numeric price from: ${priceText}`);
-    return 0;
+    const numericValue = parseFloat(numericString);
+
+    if (isNaN(numericValue)) {
+      console.warn(`Failed to convert price text to number: ${priceText}`);
+      return 0;
+    }
+
+    return numericValue;
   }
 }
