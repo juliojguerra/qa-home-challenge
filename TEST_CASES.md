@@ -1,14 +1,17 @@
-# Hotel Search & Filtering Test Cases
+# Comprehensive Test Plan for Hotel Booking Platform
 
-## Summary
+## Introduction
 
-The test cases presented in this document were created with AI assistance, specifically using Claude 3.7 Sonnet. The AI helped generate comprehensive test scenarios covering three key user stories: Hotel Search & Filtering, Flight Booking Process, and Hotel Details & Amenities Verification. Claude 3.7 Sonnet provided structured test cases with detailed steps, expected results, and clear organization by functionality. The AI tool was particularly helpful in identifying edge cases, suggesting logical test flows, and ensuring consistent formatting across all test cases. This collaborative approach allowed for rapid development of a thorough test plan that focuses automation efforts on key scenarios while maintaining complete coverage of all features.
+This test plan provides structured test cases for three key user stories on a hotel booking platform:
+1. Hotel Search & Filtering
+2. Flight/Car Booking Process
+3. Hotel Details & Amenities Verification
+
+Each test case includes priority, automation recommendation, steps, and expected results following a consistent format.
 
 ## Test Case Format
 
-Each test case follows this format:
-
-```markdown
+```
 ### [Test ID] - [Description]
 
 - **Priority:** [High/Medium/Low]
@@ -24,45 +27,6 @@ Each test case follows this format:
   - [Expected outcome 2]
   - ...
 ```
-
-## User Story to Test Case Mapping
-
-### User Story 1: Hotel Search & Filtering
-
-- **Key Test Scenarios:**
-  - TC-S-001 - Verify searching for hotels in "New York" displays relevant results
-  - TC-D-001 - Verify selecting check-in and check-out dates updates availability
-  - TC-F-001 - Verify applying "Guest Rating: 8+" filter updates results correctly
-  - TC-SO-001 - Verify sorting by "Lowest Price" reorders results as expected
-- **Additional Tests:**
-  - TC-S-002 through TC-S-004 (Additional Search Tests)
-  - TC-D-002 through TC-D-005 (Additional Date Selection Tests)
-  - TC-F-002 through TC-F-005 (Additional Filter Tests)
-  - TC-SO-002 through TC-SO-005 (Additional Sorting Tests)
-  - TC-P-001 through TC-P-005 (Performance & Edge Cases)
-  - TC-A-001 through TC-A-003 (Accessibility & Usability)
-
-### User Story 2: Flight Booking Process
-
-- **Key Test Scenarios:**
-  - TC-FB-001 - Verify searching for round-trip flight enables return date selection
-  - TC-FB-002 - Verify selecting departure & destination displays available flights
-  - TC-FB-003 - Verify invalid date range triggers error message
-  - TC-FB-004 - Verify proceeding to checkout displays booking summary
-- **Additional Tests:**
-  - TC-FB-005 through TC-FB-006 (Additional Flight Booking Tests)
-
-### User Story 3: Hotel Details & Amenities Verification
-
-- **Key Test Scenarios:**
-  - TC-HD-001 - Verify hotel listing navigation to details page
-  - TC-HD-002 - Verify hotel details page displays essential information
-  - TC-HD-003 - Verify photo gallery functionality for hotel images
-  - TC-HD-004 - Verify hotel amenities list is visible
-  - TC-HD-005 - Verify user reviews and ratings are displayed
-  - TC-HD-006 - Verify map showing hotel location is present
-- **Additional Tests:**
-  - TC-HD-007 through TC-HD-008 (Additional Hotel Details Tests)
 
 ## User Story 1: Hotel Search & Filtering
 
@@ -159,30 +123,6 @@ Each test case follows this format:
   - Results show accurately for extended stay
   - Price calculation correct for long duration
 
-### TC-D-004 - Verify system response to same-day selection
-
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User has performed a city search
-- **Steps:**
-  1. Select today as check-in date
-  2. Try to select today as check-out date
-- **Expected Results:**
-  - System prevents same-day check-in/check-out
-  - Error message explaining minimum stay
-
-### TC-D-005 - Verify date selection at calendar boundaries
-
-- **Priority:** Low
-- **Automate:** No
-- **Preconditions:** User has performed a city search
-- **Steps:**
-  1. Select date range spanning month end (e.g., Apr 29 - May 3)
-  2. Select date range spanning year end (e.g., Dec 29 - Jan 3)
-- **Expected Results:**
-  - Calendar navigation works correctly
-  - Results display properly for cross-boundary dates
-
 ### Filter Functionality
 
 ### TC-F-001 - Verify applying "Guest Rating: 8+" filter updates results correctly
@@ -224,32 +164,6 @@ Each test case follows this format:
   - "No hotels match your criteria" message
   - Suggestion to modify filters
   - Option to clear all filters
-
-### TC-F-004 - Verify removing filters updates results correctly
-
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User has applied multiple filters
-- **Steps:**
-  1. Remove one filter by clicking its X/remove button
-  2. Click "Clear all filters" button
-- **Expected Results:**
-  - Removing one filter updates results immediately
-  - Clear all resets to unfiltered city search results
-  - Filter UI shows correct active/inactive state
-
-### TC-F-005 - Verify filters persist through page navigation
-
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User has applied filters to search results
-- **Steps:**
-  1. Apply several filters
-  2. Click on a hotel to view details
-  3. Return to search results
-- **Expected Results:**
-  - All previously applied filters remain active
-  - Results maintain previous filtering
 
 ### Sorting Functionality
 
@@ -293,142 +207,9 @@ Each test case follows this format:
   - Highest rated hotel appears first
   - Ratings consistently decrease down the list
 
-### TC-SO-004 - Verify sorting works correctly with active filters
+## User Story 2: Flight/Car Booking Process
 
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User has applied filters to search results
-- **Steps:**
-  1. Apply "Amenities: Pool" filter
-  2. Sort filtered results by "Lowest Price"
-- **Expected Results:**
-  - Only hotels with pools are displayed
-  - These hotels are sorted by ascending price
-  - Both filter and sort are visibly active
-
-### TC-SO-005 - Verify ties in sorting criteria handled properly
-
-- **Priority:** Low
-- **Automate:** No
-- **Preconditions:** User has performed a city search
-- **Steps:**
-  1. Sort by "Guest Rating"
-  2. Check hotels with identical ratings
-- **Expected Results:**
-  - Hotels with identical ratings grouped together
-  - Secondary sort criterion applied (e.g., popularity)
-
-### Performance & Edge Cases
-
-### TC-P-001 - Verify system handles large result sets properly
-
-- **Priority:** High
-- **Automate:** No
-- **Preconditions:** User is on the hotel search page
-- **Steps:**
-  1. Search for populous city (e.g., "London" or "Tokyo")
-  2. Review results loading and display
-- **Expected Results:**
-  - Results load in reasonable time (< 3 seconds)
-  - Pagination or infinite scroll works properly
-  - UI remains responsive with large dataset
-
-### TC-P-002 - Verify system handles no available hotels edge case
-
-- **Priority:** High
-- **Automate:** No
-- **Preconditions:** User is on the hotel search page
-- **Steps:**
-  1. Search for valid but obscure location (e.g., "Ittoqqortoormiit, Greenland")
-  2. Set dates during known local busy period
-- **Expected Results:**
-  - "No hotels available" message displayed
-  - Suggestion to try different dates or location
-  - No system errors or blank screens
-
-### TC-P-003 - Verify system response to connection loss during search
-
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User is on the hotel search page
-- **Steps:**
-  1. Initiate search for hotels
-  2. Simulate connection loss during search
-- **Expected Results:**
-  - Error message about connection issue
-  - Option to retry search
-  - Graceful handling without system crash
-
-### TC-P-004 - Verify search with only city (no dates/filters)
-
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User is on the hotel search page
-- **Steps:**
-  1. Enter only city name "New York"
-  2. Leave all other fields at defaults
-  3. Click search
-- **Expected Results:**
-  - Results show all available hotels
-  - Default date range applied (if any)
-  - Clear indication that additional criteria can be added
-
-### TC-P-005 - Verify system handles rapid filter changes
-
-- **Priority:** Low
-- **Automate:** No
-- **Preconditions:** User has performed a city search
-- **Steps:**
-  1. Rapidly apply and remove multiple filters in succession
-  2. Change sort order during filter updates
-- **Expected Results:**
-  - System debounces rapid changes appropriately
-  - Final state reflects last selected options
-  - No UI freezing or inconsistent results
-
-### Accessibility & Usability
-
-### TC-A-001 - Verify search and filters accessible via keyboard
-
-- **Priority:** High
-- **Automate:** No
-- **Preconditions:** User is on the hotel search page
-- **Steps:**
-  1. Use Tab key to navigate to search field
-  2. Enter city name using keyboard
-  3. Tab to filters and activate using keyboard
-- **Expected Results:**
-  - All functionality accessible via keyboard
-  - Focus indicators clearly visible
-  - Tab order is logical
-
-### TC-A-002 - Verify screen reader announces search options and results
-
-- **Priority:** High
-- **Automate:** No
-- **Preconditions:** User is on the hotel search page with screen reader active
-- **Steps:**
-  1. Navigate through search interface with screen reader
-  2. Perform search and review results
-- **Expected Results:**
-  - All fields and controls properly labeled
-  - Results announced with relevant details
-  - No unlabeled controls or content
-
-### TC-A-003 - Verify filter state clearly visible to users
-
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User has performed a city search
-- **Steps:**
-  1. Apply multiple filters
-  2. Check visual indication of active filters
-- **Expected Results:**
-  - Active filters clearly highlighted
-  - Summary of applied filters visible
-  - Method to remove each filter is obvious
-
-## User Story 2: Flight Booking Process
+### Flight Booking Tests
 
 ### TC-FB-001 - Verify searching for round-trip flight enables return date selection
 
@@ -491,35 +272,71 @@ Each test case follows this format:
   - Passenger information form is available
   - Payment options are presented
 
-### TC-FB-005 - Verify flight search with multi-city option
+### Alternative: Car Rental Booking Tests
 
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User is on the flight search page
+### TC-CR-001 - Verify car rental search form allows location selection
+
+- **Priority:** High
+- **Automate:** Yes
+- **User Story:** US-2
+- **Preconditions:** User is on the car rental search page
 - **Steps:**
-  1. Select "Multi-city" option
-  2. Enter details for first leg (e.g., NYC to London)
-  3. Enter details for second leg (e.g., London to Paris)
-  4. Enter details for third leg (e.g., Paris to NYC)
-  5. Search for flights
+  1. Enter "Miami" in the pick-up location field
+  2. Observe suggestions and select the airport location
 - **Expected Results:**
-  - System displays available options for all flight legs
-  - Combined pricing is shown
-  - Each leg's details are clearly separated
+  - Location suggestions appear as user types
+  - Airport and city center options are available
+  - Selected location is displayed in the form field
 
-### TC-FB-006 - Verify flight filters functionality
+### TC-CR-002 - Verify date and time selection for car rental
 
-- **Priority:** Medium
-- **Automate:** No
-- **Preconditions:** User has performed a flight search
+- **Priority:** High
+- **Automate:** Yes
+- **User Story:** US-2
+- **Preconditions:** User is on the car rental search page
 - **Steps:**
-  1. Apply filter for direct flights only
-  2. Apply filter for specific airline
-  3. Apply filter for departure time range
+  1. Select pick-up date (tomorrow)
+  2. Select pick-up time (10:00 AM)
+  3. Select drop-off date (tomorrow + 3 days)
+  4. Select drop-off time (4:00 PM)
 - **Expected Results:**
-  - Results update to show only flights meeting all criteria
-  - Filters show as active/selected
-  - Result count updates to reflect filtered flights
+  - All date and time fields accept input
+  - Calendar interface works properly
+  - Time selection functions correctly
+  - Selected values display in form fields
+
+### TC-CR-003 - Verify car search results display relevant information
+
+- **Priority:** High
+- **Automate:** Yes
+- **User Story:** US-2
+- **Preconditions:** User has entered search criteria for car rental
+- **Steps:**
+  1. Enter valid location, dates, and times
+  2. Click search button
+  3. Review search results
+- **Expected Results:**
+  - Available car options are displayed
+  - Each listing shows car type, price, and rental company
+  - Images of representative vehicles are shown
+  - Key features (AC, automatic/manual, etc.) are indicated
+
+### TC-CR-004 - Verify proceeding to car rental checkout displays booking summary
+
+- **Priority:** High
+- **Automate:** Yes
+- **User Story:** US-2
+- **Preconditions:** User has searched for and selected a car rental
+- **Steps:**
+  1. Select a car from search results
+  2. Click "Continue" or "Book" button
+  3. Review checkout/booking page
+- **Expected Results:**
+  - Booking summary shows selected car details
+  - Rental period and location information displayed
+  - Price breakdown including any fees is shown
+  - Driver information form is available
+  - Payment options are presented
 
 ## User Story 3: Hotel Details & Amenities Verification
 
@@ -632,44 +449,46 @@ Each test case follows this format:
   - Selection mechanism works correctly
   - Price updates based on previously selected dates
 
-### TC-HD-008 - Verify policy information display
+### TC-HD-008 - Verify booking availability on the hotel details page
 
-- **Priority:** Medium
+- **Priority:** High
 - **Automate:** No
 - **Preconditions:** User is on a hotel details page
 - **Steps:**
-  1. Locate hotel policies section
-  2. Review cancellation policy, check-in/out times, etc.
+  1. Locate booking section on the page
+  2. Verify date selection option
+  3. Select dates for a stay
 - **Expected Results:**
-  - Cancellation policy is clearly stated
-  - Check-in and check-out times are displayed
-  - Pet policy is mentioned
-  - Age restrictions or children policy is stated
-  - Other relevant policies are accessible
+  - Booking widget or section is prominently displayed
+  - Date selection is functional
+  - Price updates based on selected dates
+  - "Book Now" or equivalent button is visible
+  - Room availability is indicated
 
-## Summary of Test Automation by User Story
+## Test Automation Priority Summary
 
-### User Story 1: Hotel Search & Filtering (Key Scenarios)
-
+### User Story 1: Hotel Search & Filtering
 1. **TC-S-001** - Verify searching for hotels in "New York" displays relevant results
 2. **TC-D-001** - Verify selecting check-in and check-out dates updates availability
 3. **TC-F-001** - Verify applying "Guest Rating: 8+" filter updates results correctly
 4. **TC-SO-001** - Verify sorting by "Lowest Price" reorders results as expected
 
-### User Story 2: Flight Booking Process (Key Scenarios)
-
+### User Story 2: Flight/Car Booking Process
 5. **TC-FB-001** - Verify searching for round-trip flight enables return date selection
 6. **TC-FB-002** - Verify selecting departure & destination displays available flights
 7. **TC-FB-003** - Verify invalid date range triggers error message
 8. **TC-FB-004** - Verify proceeding to checkout displays booking summary
 
-### User Story 3: Hotel Details & Amenities Verification (Key Scenarios)
+**Alternative (Car Rental)**
+5. **TC-CR-001** - Verify car rental search form allows location selection
+6. **TC-CR-002** - Verify date and time selection for car rental
+7. **TC-CR-003** - Verify car search results display relevant information
+8. **TC-CR-004** - Verify proceeding to car rental checkout displays booking summary
 
+### User Story 3: Hotel Details & Amenities Verification
 9. **TC-HD-001** - Verify hotel listing navigation to details page
 10. **TC-HD-002** - Verify hotel details page displays essential information
 11. **TC-HD-003** - Verify photo gallery functionality for hotel images
 12. **TC-HD-004** - Verify hotel amenities list is visible
 13. **TC-HD-005** - Verify user reviews and ratings are displayed
 14. **TC-HD-006** - Verify map showing hotel location is present
-
-**Total: 14 tests prioritized for automation covering all key scenarios from the user stories**
