@@ -4,13 +4,13 @@ import { SearchBoxPage } from "../common/SearchBoxPage";
 import { FiltersPage } from "../common/FiltersPage";
 
 export class HomePage extends BasePage {
-  readonly destinationSearchField: Locator;
-  readonly searchButton: Locator;
-  readonly datesContainer: Locator;
-  readonly startDateField: Locator;
-  readonly endDateField: Locator;
+  private readonly destinationSearchField: Locator;
+  private readonly searchButton: Locator;
+  private readonly datesContainer: Locator;
+  private readonly startDateField: Locator;
+  private readonly endDateField: Locator;
 
-  readonly monthNames: string[] = [
+  private readonly monthNames: string[] = [
     "January",
     "February",
     "March",
