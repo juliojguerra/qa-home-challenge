@@ -248,9 +248,8 @@ Each test case includes priority, automation recommendation, steps, and expected
 - **Preconditions:** User is on the flight search page
 - **Steps:**
   1. Select "Round-trip" option
-  2. Enter departure date (today + 7 days)
-  3. Enter return date (today + 3 days) which is before departure
-  4. Attempt to search
+  2. Enter valid departure date
+  3. Attempt to search
 - **Expected Results:**
   - Error message indicates invalid date selection
   - System prevents search with invalid dates
