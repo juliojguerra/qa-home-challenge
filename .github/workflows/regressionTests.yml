@@ -16,11 +16,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx playwright install chromium --with-deps
       - name: Run Playwright tests
         env:
           ZEROSTEP_API_KEY: ${{ secrets.ZEROSTEP_API_KEY }}
-        run: npx playwright test --grep @end-to-end
+        run: npx playwright test --grep @regression
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
