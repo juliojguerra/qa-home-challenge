@@ -169,9 +169,14 @@ export class PropertyDetailsPage extends BasePage {
 
     await this.facilitiesTab.click();
 
+    // Use a regex pattern to match either "Facilities" or "Amenities"
+    const headerPattern = new RegExp(
+      `(Facilities|Amenities) of ${propertyName}`
+    );
+
     await expect(
-      this.page.getByText(`Facilities of ${propertyName}`),
-      "Facilities header is not displayed"
+      this.page.getByText(headerPattern),
+      "Facilities/Amenities header is not displayed"
     ).toBeVisible();
 
     await expect(
