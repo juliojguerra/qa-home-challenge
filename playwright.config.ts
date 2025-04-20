@@ -22,7 +22,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -52,6 +52,16 @@ export default defineConfig({
       "Accept-Language": "en-US,en;q=0.9",
       DNT: "1", // Do Not Track
     },
+
+    // Set geolocation to somewhere in the United States
+    // These coordinates are for New York City
+    geolocation: { longitude: -74.006, latitude: 40.7128 },
+
+    // Grant geolocation permissions automatically
+    permissions: ["geolocation"],
+
+    // You might also want to set the timezone
+    timezoneId: "America/New_York",
   },
 
   /* Configure projects for major browsers */
