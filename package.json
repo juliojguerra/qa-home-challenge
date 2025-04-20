@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test-headed": "npx playwright test --headed",
+    "test-reg": "npx playwright test --grep @regression",
+    "test-e2e": "npx playwright test --grep @end-to-end"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/juliojguerra/qa-home-challenge.git"
