@@ -180,13 +180,12 @@ export class PropertyDetailsPage extends BasePage {
     ).toBeVisible();
   }
 
-  async verifyPropertyLocationInMap() {
-    await expect(this.mapWrapper, "Map should be visible").toBeVisible();
+  async softVerifyPropertyLocationInMap() {
+    await expect.soft(this.mapWrapper, "Map should be visible").toBeVisible();
 
-    await expect(
-      this.propertyMarker,
-      "Property marker should be visible"
-    ).toBeVisible();
+    await expect
+      .soft(this.propertyMarker, "Property marker should be visible")
+      .toBeVisible();
   }
 
   async verifyReviewsAndRatingsAreDisplayed(): Promise<void> {
