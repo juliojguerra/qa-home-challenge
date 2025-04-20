@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import { BasePage } from "../base/BasePage";
 import { ai } from "@zerostep/playwright";
 
@@ -186,5 +186,15 @@ export class FiltersPage extends BasePage {
 
   async isPleasant6PlusFilterChecked(): Promise<boolean> {
     return this.isReviewScoreFilterChecked(this.pleasant6PlusFilter);
+  }
+
+  async verifyVeryGood8PlusFilterIsChecked() {
+    const isVeryGood8PlusFilterChecked =
+      await this.isVeryGood8PlusFilterChecked();
+
+    expect(
+      isVeryGood8PlusFilterChecked,
+      "8+ star rating should be checked"
+    ).toBeTruthy();
   }
 }
