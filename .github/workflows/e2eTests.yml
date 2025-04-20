@@ -11,8 +11,8 @@ on:
         type: choice
         options:
           - chromium
-          - firefox
-          - webkit
+          - firefox (not available yet)
+          - webkit (not available yet)
       debug_mode:
         description: "Enable debug mode"
         required: false
@@ -47,6 +47,7 @@ jobs:
           else
             npx playwright test --grep @end-to-end
           fi
+        continue-on-error: false
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
