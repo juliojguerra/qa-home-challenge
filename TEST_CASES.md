@@ -218,8 +218,9 @@ Each test case includes priority, automation recommendation, steps, and expected
 - **User Story:** US-2
 - **Preconditions:** User is on the flight search page
 - **Steps:**
-  1. Select "Round-trip" option
-  2. Observe date selection fields
+  1. Enter [city_name] as destination
+  2. Select departure date (1 day from today)
+  3. Observe return date selection field
 - **Expected Results:**
   - Return date field is enabled and selectable
   - Calendar for return date is accessible
@@ -231,13 +232,11 @@ Each test case includes priority, automation recommendation, steps, and expected
 - **User Story:** US-2
 - **Preconditions:** User is on the flight search page
 - **Steps:**
-  1. Enter "New York" as departure city
-  2. Enter "London" as destination city
-  3. Select valid travel dates
-  4. Click search button
+  1. Enter [city_name] as destination
+  2. Click search button
 - **Expected Results:**
-  - Available flights between New York and London are displayed
-  - Each flight shows departure/arrival times and price
+  - Available flights to [city_name] are displayed
+  - Each flight shows relevant information
   - Results count is greater than zero
 
 ### TC-FB-003 - Verify invalid date range triggers error message
@@ -248,8 +247,10 @@ Each test case includes priority, automation recommendation, steps, and expected
 - **Preconditions:** User is on the flight search page
 - **Steps:**
   1. Select "Round-trip" option
-  2. Enter valid departure date
-  3. Attempt to search
+  2. Enter [city_name] as destination
+  3. Select departure date
+  4. Leave return date unselected
+  5. Click search button
 - **Expected Results:**
   - Error message indicates invalid date selection
   - System prevents search with invalid dates
@@ -464,6 +465,34 @@ Each test case includes priority, automation recommendation, steps, and expected
   - "Book Now" or equivalent button is visible
   - Room availability is indicated
 
+### TC-E2E-001 - Verify end-to-end hotel search, details, and booking flow
+
+- **Priority:** High
+- **Automate:** Yes
+- **User Story:** US-1, US-3
+- **Preconditions:** User is on the hotel search page
+- **Steps:**
+  1. Enter "Krakow, Poland" in the city search field
+  2. Select a future date as check-in date
+  3. Select a later date as check-out date
+  4. Click the search button
+  5. Click on the first hotel listing from search results
+  6. Verify essential hotel information (name, location, star rating)
+  7. Click on the first image to open the photo gallery
+  8. Click on the first image in the gallery
+  9. Navigate through multiple images in the gallery
+  10. Close the photo gallery modal
+  11. Review the list of hotel amenities
+  12. Check user reviews and ratings
+  13. Verify map showing hotel location is present
+- **Expected Results:**
+  - Hotel search displays relevant results for Krakow
+  - Hotel details page loads successfully with correct hotel information
+  - Photo gallery is functional with working navigation controls
+  - Amenities list is visible with common amenities listed
+  - User reviews and ratings are displayed with overall score
+  - Map shows the hotel location (soft verification)
+
 ## Test Automation Priority Summary
 
 ### User Story 1: Hotel Search & Filtering
@@ -485,9 +514,13 @@ Each test case includes priority, automation recommendation, steps, and expected
 8. **TC-CR-004** - Verify proceeding to car rental checkout displays booking summary
 
 ### User Story 3: Hotel Details & Amenities Verification
-9. **TC-HD-001** - Verify hotel listing navigation to details page
-10. **TC-HD-002** - Verify hotel details page displays essential information
-11. **TC-HD-003** - Verify photo gallery functionality for hotel images
-12. **TC-HD-004** - Verify hotel amenities list is visible
-13. **TC-HD-005** - Verify user reviews and ratings are displayed
-14. **TC-HD-006** - Verify map showing hotel location is present
+
+9. **TC-E2E-001** - Verify end-to-end hotel search, details, and booking flow
+
+**Out of scope for the home challenge**
+10. **TC-HD-001** - Verify hotel listing navigation to details page
+11. **TC-HD-002** - Verify hotel details page displays essential information
+12. **TC-HD-003** - Verify photo gallery functionality for hotel images
+13. **TC-HD-004** - Verify hotel amenities list is visible
+14. **TC-HD-005** - Verify user reviews and ratings are displayed
+15. **TC-HD-006** - Verify map showing hotel location is present

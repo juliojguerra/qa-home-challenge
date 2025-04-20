@@ -100,7 +100,7 @@ export class FlightsPage extends BasePage {
     await this.flightsSearchBoxSuggestionsList.first().click();
   }
 
-  async selectStartDate(daysFromToday: number = 7) {
+  async selectStartDateInXDays(daysFromToday: number = 7) {
     await this.clickDatesField();
     await this.calendarContainer.waitFor();
 
