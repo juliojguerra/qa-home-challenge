@@ -59,7 +59,7 @@ Before running this project, ensure you have the following installed:
 
 Run all tests:
 ```bash
-npm test
+npm run test
 ```
 
 Run a specific test suite:
