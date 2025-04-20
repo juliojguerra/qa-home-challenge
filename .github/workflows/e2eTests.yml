@@ -20,7 +20,7 @@ jobs:
         run: npx playwright install chromium --with-deps
       - name: Run Playwright tests
         env:
-          ZEROSTEP_API_KEY: ${{ secrets.ZEROSTEP_API_KEY }}
+          ZEROSTEP_TOKEN: ${{ secrets.ZEROSTEP_TOKEN }}
         run: npx playwright test --grep @end-to-end
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
