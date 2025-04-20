@@ -11,8 +11,8 @@ on:
         type: choice
         options:
           - chromium
-          - firefox
-          - webkit
+          - firefox (not available yet)
+          - webkit (not available yet)
       debug_mode:
         description: "Enable debug mode"
         required: false
