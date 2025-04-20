@@ -1,18 +1,24 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator, expect, BrowserContext } from "@playwright/test";
 import { ai } from "@zerostep/playwright";
 import { BasePage } from "../base/BasePage";
+import { PropertyDetailsPage } from "../properties/PropertyDetailsPage";
 
 export class SearchResultsPage extends BasePage {
   private readonly searchResultHeading: Locator;
-  private readonly hotelResults: Locator;
+  private readonly propertyCards: Locator;
   private readonly hotelLocations: Locator;
   private readonly allPropertiesPrices: Locator;
   private readonly sortersDropdown: Locator;
   private readonly priceLowersFirstOption: Locator;
+  private readonly context: BrowserContext;
+
+  private propertiesCount: Number;
+  private newPropertiesCount: Number;
 
   constructor(page: Page) {
     super(page);
-    this.hotelResults = page.locator("[data-testid='property-card']");
+    this.context = page.context();
+    this.propertyCards = page.locator("[data-testid='property-card']");
     this.hotelLocations = page.locator(
       "[data-testid='property-card'] [data-testid='location']"
     );
@@ -25,18 +31,44 @@ export class SearchResultsPage extends BasePage {
       "[data-testid='sorters-dropdown-trigger']"
     );
     this.priceLowersFirstOption = page.locator("[data-id='price']");
+
+    this.propertiesCount = 0;
+    this.newPropertiesCount = 0;
+  }
+
+  async clickFirstProperty() {
+    // Create a promise that will resolve when a new page is created
+    const pagePromise = this.context.waitForEvent("page");
+
+    // Click on the first property (this will open a new tab)
+    await this.propertyCards.first().click();
+
+    // Wait for the new page to be created and load
+    const newPage = await pagePromise;
+    await newPage.waitForLoadState("networkidle");
+
+    // Return a new HotelDetailsPage instance with the new page
+    return new PropertyDetailsPage(newPage);
   }
 
   async clickSortersDropdown() {
-    this.sortersDropdown.click();
+    await this.sortersDropdown.click();
   }
 
   async getResultsCount() {
-    return await this.hotelResults.count();
+    return await this.propertyCards.count();
   }
 
-  async getSearchResultHeading(expectedLocation: string): Promise<Locator> {
-    return this.page.getByRole("heading", { name: expectedLocation }).first();
+  async getSearchResultHeading(expectedLocation: string) {
+    // Find all heading elements first
+    const headings = this.page.getByRole("heading");
+
+    // Create a locator that contains the expected text (partial match)
+    return headings
+      .filter({
+        hasText: expectedLocation,
+      })
+      .first();
   }
 
   async getPropertiesFoundCount(test: any): Promise<number> {
@@ -46,7 +78,7 @@ export class SearchResultsPage extends BasePage {
       );
     }
 
-    // Use 0step ai to extract the property count
+    // Use zerostep ai to extract the property count
     const countText = await ai("Extract the number of properties found", {
       page: this.page,
       test,
@@ -63,17 +95,6 @@ export class SearchResultsPage extends BasePage {
     await this.priceLowersFirstOption.click();
   }
 
-  // async areAllHotelsInLocation(location: string) {
-  //   const count = await this.hotelLocations.count();
-  //   for (let i = 0; i < count; i++) {
-  //     const locationText = await this.hotelLocations.nth(i).textContent();
-  //     if (!locationText?.toLowerCase().includes(location.toLowerCase())) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
-
   async verifySearchResultsByLocation(expectedLocation: string) {
     // Verify heading contains the search term
     const heading = await this.getSearchResultHeading(expectedLocation);
@@ -86,9 +107,34 @@ export class SearchResultsPage extends BasePage {
     expect(resultsCount).toBeGreaterThan(0);
   }
 
-  async verifyResultsCountIsGreaterThan0() {
-    const resultsCount = await this.getResultsCount();
-    expect(resultsCount, "Expected to find hotel results").toBeGreaterThan(0);
+  async verifyNewResultsCountIsEqualOrHigher(test: any) {
+    this.newPropertiesCount = await this.getPropertiesFoundCount(test);
+
+    expect(
+      this.newPropertiesCount >= this.propertiesCount,
+      "New properties count should be higher or equal to previous selection, since date range is shorter"
+    ).toBeTruthy();
+  }
+
+  async verifyResultsCountIsGreaterThan0(test: any) {
+    this.propertiesCount = await this.getPropertiesFoundCount(test);
+
+    expect(
+      this.propertiesCount,
+      "Expected to find hotel results"
+    ).toBeGreaterThan(0);
+  }
+
+  async verifyNewPropertiesCountIsEqualOrHigherThan(
+    test: any,
+    propertiesCount: number
+  ) {
+    const newPropertiesCount = await this.getPropertiesFoundCount(test);
+
+    expect(
+      propertiesCount >= newPropertiesCount,
+      "Selecting 8+ star rating did not update the results."
+    ).toBeTruthy();
   }
 
   async verifySortingByLowestPriceReordersResults() {
