@@ -47,6 +47,7 @@ jobs:
           else
             npx playwright test --grep @end-to-end
           fi
+        continue-on-error: false
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
