@@ -1,5 +1,6 @@
 import { test } from "@playwright/test";
 import { FlightsPage } from "../page-objects/flights/FlightsPage";
+import { TestData } from "../test-data/test-data";
 
 test.describe("User Story 2: Flight/Car Booking Process", () => {
   let flightsPage: FlightsPage;
@@ -10,15 +11,17 @@ test.describe("User Story 2: Flight/Car Booking Process", () => {
   });
 
   test("TC-FB-001 - Verify searching for round-trip flight enables return date selection", async ({}) => {
-    await flightsPage.enterDestination("Warsaw");
+    await flightsPage.enterDestination(TestData.locations.EUROPE.POLAND.WARSAW);
 
-    await flightsPage.selectStartDate(1);
+    await flightsPage.selectStartDateInXDays(1);
 
     await flightsPage.verifyReturnDateSelectionEnabled();
   });
 
   test("TC-FB-002 - Verify selecting departure & destination displays available flights", async ({}) => {
-    await flightsPage.enterDestination("Amsterdam");
+    await flightsPage.enterDestination(
+      TestData.locations.EUROPE.NETHERLANDS.AMSTERDAM
+    );
 
     await flightsPage.clickSearchButton();
 
@@ -28,9 +31,11 @@ test.describe("User Story 2: Flight/Car Booking Process", () => {
   test("TC-FB-003 - Verify invalid date range triggers error message", async ({}) => {
     await flightsPage.clickRoundTrip();
 
-    await flightsPage.enterDestination("Medellin");
+    await flightsPage.enterDestination(
+      TestData.locations.AMERICAS.COLOMBIA.MEDELLIN
+    );
 
-    await flightsPage.selectStartDate();
+    await flightsPage.selectStartDateInXDays();
 
     await flightsPage.clickSearchButton();
 
