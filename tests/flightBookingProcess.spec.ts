@@ -2,7 +2,8 @@ import { test } from "@playwright/test";
 import { FlightsPage } from "../page-objects/flights/FlightsPage";
 import { TestData } from "../test-data/test-data";
 
-test.describe("User Story 2: Flight/Car Booking Process", () => {
+// @tag - For GitHub actions usage
+test.describe("User Story 2: Flight/Car Booking Process @regression", () => {
   let flightsPage: FlightsPage;
 
   test.beforeEach(async ({ page }) => {

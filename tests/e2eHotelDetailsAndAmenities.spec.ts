@@ -2,7 +2,8 @@ import { test } from "@playwright/test";
 import { HomePage } from "../page-objects/homepage/HomePage";
 import { TestData } from "../test-data/test-data";
 
-test.describe("User Story 3: Hotel Details & Amenities Verification", () => {
+// @tag - For GitHub actions usage
+test.describe("User Story 3: Hotel Details & Amenities Verification @end-to-end", () => {
   test("TC-E2E-001 - Verify end-to-end hotel search, details, and booking flow", async ({
     page,
   }) => {

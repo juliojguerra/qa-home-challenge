@@ -3,7 +3,8 @@ import { HomePage } from "../page-objects/homepage/HomePage";
 import { SearchBoxPage } from "../page-objects/common/SearchBoxPage";
 import { TestData } from "../test-data/test-data";
 
-test.describe("User Story 1: Hotel Search & Filtering", () => {
+// @tag - For GitHub actions usage
+test.describe("User Story 1: Hotel Search & Filtering @regression", () => {
   let homePage: HomePage;
   let searchBox: SearchBoxPage;
 
@@ -13,7 +14,7 @@ test.describe("User Story 1: Hotel Search & Filtering", () => {
     await homePage.goto();
   });
 
-  test('TC-S-001 - Verify searching for hotels in "New York" displays relevant results', async ({}) => {
+  test("TC-S-001 - Verify searching for hotels in 'New York' displays relevant results", async ({}) => {
     const searchLocation = TestData.locations.AMERICAS.USA.NEW_YORK;
 
     await searchBox.fillSearchDestination(searchLocation);
