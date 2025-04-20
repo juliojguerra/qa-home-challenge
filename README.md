@@ -55,6 +55,8 @@ Before running this project, ensure you have the following installed:
    npx playwright install
    ```
 
+4. Add .env file and add ZEROSTEP_TOKEN variable, copy your API_KEY from https://app.zerostep.com/account
+
 ### Running Tests
 
 Run all tests:
